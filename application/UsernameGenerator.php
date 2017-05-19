@@ -8,9 +8,16 @@
 			$yearofbirth = $this->formatDateOfBirth($dateofbirth);
 			
 			// Generate a username (not unique)
-			$username = $this->generateUsername($firstname, $lastname, $yearofbirth);
+			$username = $username_original = $this->generateUsername($firstname, $lastname, $yearofbirth);
 			
 			// Append a number on to the username to make it unique, if not already
+			$number = 2;
+			while(!$this->isUnique($username_original)) {
+				$username = $username_original . "." . $number;
+				$number++;
+			}
+			
+			return $username;
 		}
 		
 		public function formatName($name) {
@@ -20,8 +27,6 @@
 			
 			$first = $match[1];
 			$last = $match[2];
-			
-			print_r($match);
 			
 			if(strpos($first, " ") !== false) {
 				// First name contains multiple words, prefer using these characters
