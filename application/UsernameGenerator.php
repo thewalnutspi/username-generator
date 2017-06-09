@@ -12,9 +12,11 @@
 			
 			// Append a number on to the username to make it unique, if not already
 			$number = 2;
-			while(!$this->isUnique($username_original)) {
+			while(($unique = $this->isUnique($username_original, $number - 2)) !== true) {
 				$username = $username_original . "." . $number;
-				$number++;
+				if(is_int($unique))
+					$number += $unique;
+				else $number++;
 			}
 			
 			return $username;
